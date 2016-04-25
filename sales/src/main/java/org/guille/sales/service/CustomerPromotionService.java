@@ -1,14 +1,14 @@
 package org.guille.sales.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+//import java.io.BufferedReader;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.IOException;
+//import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+//import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -22,12 +22,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
+//import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+//import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
@@ -62,12 +62,13 @@ public class CustomerPromotionService extends BaseService {
 		LOG.info("Recibido: {}", cp);
 		ICustomerPromotionPersist dao = new PersistenceFactory()
 				.getCustomerPromotionPersist();
-		//ICustomerPromotion cpl = dao.load(cp.getEmail());
-		//if (cpl != null) {
-			//return new CustomerPromotionResponse(0,
-				//	"Disculpe, no se permite llenar la encuesta más de una vez"); 
-	   //}
+		
 		try {
+			ICustomerPromotion cpl = dao.load(cp.getEmail());
+			if (cpl != null) {
+				return new CustomerPromotionResponse(0,
+						"Disculpe, no se permite llenar la encuesta más de una vez");
+			}
 		
 			cp.setDate(new Date());
 			cp.setUserAgent(getServletRequest().getHeader("User-Agent"));
